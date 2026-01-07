@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Explosive Quote</title>
+<title>Impact Quote</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
 
 body {
   margin: 0;
@@ -12,118 +12,45 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #000;
+  background: #0a0a0a;
   overflow: hidden;
-  font-family: 'Inter', sans-serif;
+  color: #fff;
+  font-family: 'Anton', sans-serif;
 }
 
-.text {
-  position: absolute;
-  font-size: 2.2rem;
-  font-weight: 700;
+.container {
+  text-align: center;
+  line-height: 1.4;
+  font-size: 2.8rem;
+  letter-spacing: 2px;
+}
+
+.word {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(80px);
   color: #0ff;
-  text-transform: uppercase;
-  opacity: 0;
-  transform: scale(0.3) rotate(-15deg);
-  filter: drop-shadow(0 0 10px #0ff) drop-shadow(0 0 20px #0ff);
+  animation: dropIn 1s forwards;
 }
 
-.particle {
-  position: absolute;
-  width: 6px;
-  height: 6px;
-  background: #0ff;
-  border-radius: 50%;
-  opacity: 0;
-  pointer-events: none;
-}
+.word:nth-child(1) { animation-delay: 0.5s; color: #0ff; }
+.word:nth-child(2) { animation-delay: 1.2s; color: #0af; }
+.word:nth-child(3) { animation-delay: 2s; color: #0ff; }
+.word:nth-child(4) { animation-delay: 3s; color: #0af; }
 
+@keyframes dropIn {
+  0% { opacity: 0; transform: translateY(80px) scale(0.5); }
+  60% { opacity: 1; transform: translateY(-10px) scale(1.05); }
+  100% { transform: translateY(0px) scale(1); }
+}
 </style>
 </head>
 <body>
-
-<script>
-const phrases = [
-  "be kind",
-  "be polite",
-  "be humble…",
-  "but always have a plan to outthink and outwork everyone in the room."
-];
-
-// create particle pool
-const particles = [];
-for(let i=0;i<150;i++){
-  const p = document.createElement('div');
-  p.className='particle';
-  document.body.appendChild(p);
-  particles.push(p);
-}
-
-function explodeText(text, delay){
-  setTimeout(()=>{
-    const el = document.createElement('div');
-    el.className = 'text';
-    el.textContent = text;
-    document.body.appendChild(el);
-
-    // Animate text scaling
-    let scale = 0.3, opacity=0;
-    let rotate = -15;
-    const anim = setInterval(()=>{
-      scale += 0.05;
-      rotate += 2;
-      opacity += 0.08;
-      el.style.transform = `scale(${scale}) rotate(${rotate}deg)`;
-      el.style.opacity = opacity;
-      if(scale>=1.2){
-        clearInterval(anim);
-        fadeOut(el);
-        createParticles(el);
-      }
-    }, 30);
-
-  }, delay);
-}
-
-function fadeOut(el){
-  let op = 1;
-  const fade = setInterval(()=>{
-    op -= 0.02;
-    el.style.opacity = op;
-    if(op<=0) { el.remove(); clearInterval(fade); }
-  },30);
-}
-
-function createParticles(el){
-  const rect = el.getBoundingClientRect();
-  for(let i=0;i<30;i++){
-    const p = particles[i];
-    p.style.left = rect.left + rect.width/2 + 'px';
-    p.style.top = rect.top + rect.height/2 + 'px';
-    p.style.opacity = 1;
-    const angle = Math.random()*2*Math.PI;
-    const speed = Math.random()*6+2;
-    let x = 0, y = 0;
-    const move = setInterval(()=>{
-      x += Math.cos(angle)*speed;
-      y += Math.sin(angle)*speed;
-      p.style.transform = `translate(${x}px, ${y}px)`;
-      p.style.opacity -= 0.05;
-      if(p.style.opacity<=0){
-        clearInterval(move);
-        p.style.opacity=0;
-        p.style.transform=`translate(0,0)`;
-      }
-    },30);
-  }
-}
-
-// trigger all phrases
-phrases.forEach((ph,i)=>{
-  explodeText(ph,i*1500);
-});
-
-</script>
-
+  <div class="container">
+    <span class="word">Be kind,</span><br>
+    <span class="word">Be polite,</span><br>
+    <span class="word">Be humble…</span><br>
+    <span class="word">But always have a plan to outthink and outwork everyone in the room.</span>
+  </div>
 </body>
 </html>
